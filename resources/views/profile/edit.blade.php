@@ -1,24 +1,29 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>プロフィール編集</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Profile') }}
+        </h2>
     </x-slot>
 
-    <form method="POST" action="{{ route('profile.update') }}">
-        @csrf
-        @method('PATCH')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.update-profile-information-form')
+                </div>
+            </div>
 
-        <div>
-            <label for="name">名前</label>
-            <input id="name" name="name" value="{{ old('name', $user->name) }}" required autofocus />
-            @error('name')<div>{{ $message }}</div>@enderror
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.update-password-form')
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.delete-user-form')
+                </div>
+            </div>
         </div>
-
-        <div>
-            <label for="email">メールアドレス</label>
-            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required />
-            @error('email')<div>{{ $message }}</div>@enderror
-        </div>
-
-        <button type="submit">更新する</button>
-    </form>
+    </div>
 </x-app-layout>

@@ -1,37 +1,26 @@
-<!DOCTYPE HTML>
-<html lang="ja">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            祭りを投稿する
+        </h2>
+    </x-slot>
 
-<head>
-    <meta charset="utf-8">
-    <title>Blog</title>
-</head>
+    <div class="py-12 max-w-4xl mx-auto">
+        <form method="POST" action="{{ route('festival.store') }}" enctype="multipart/form-data">
+            @csrf
 
-<body>
-    <!-- formタグにenctypeを追加 -->
-    <!-- enctypeとは、ファイルを送信する際にデータの形式を決めるもの -->
-    <form action="/festival_images" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="title">
-            <h2>Title</h2>
-            <input type="text" name="title" placeholder="タイトル" value="{{ old('title') }}" />
-        </div>
-        <div class="body">
-            <h2>Body</h2>
-            <textarea name="body" placeholder="今日も1日お疲れさまでした。">{{ old('body') }}</textarea>
-        </div>
-        <!-- ここから追加 -->
-        <div class="image">
-            <input type="file" name="image">
-        </div>
-        <!-- ここまで追加 -->
-        <input type="submit" value="store" />
-    </form>
+            <div>
+                <label for="event_title">タイトル</label>
+                <input type="text" name="event_title" id="event_title" required>
+            </div>
 
-
-
-    <div class="footer">
-        <a href="/">戻る</a>
+            <div>
+                <label for="event_body">内容</label>
+                <textarea name="event_body" id="event_body" rows="3"></textarea>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">投稿する</button>
+            </div>
+        </form>
     </div>
-</body>
-
-</html>
+</x-app-layout>
