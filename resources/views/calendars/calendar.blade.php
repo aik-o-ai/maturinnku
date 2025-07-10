@@ -41,8 +41,13 @@
                     <option value="blue" selected>青</option>
                     <option value="green">緑</option>
                 </select>
+                <input type="hidden" name="event_border_color" value="blue"> <!-- event_colorと合わせる -->
+                <input type="hidden" name="prefecture" value="富山県">
+                <input type="hidden" name="location" value="射水市新湊">
+                <input type="hidden" name="latitude" value="36.7556">
+                <input type="hidden" name="longitude" value="137.0768">
                 <button type="button" onclick="closeAddModal()">キャンセル</button>
-                <button type="submit">決定</button>
+                <button type="submit">登録</button>
             </form>
         </div>
     </div>
