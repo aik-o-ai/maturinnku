@@ -80,25 +80,31 @@ if (calendarEl) {
                 });
         },
 
-        // 予定をクリックすると予定編集モーダルが表示される
+        // 祭りだけ詳細ページ、他はモーダル表示
         eventClick: function (info) {
-            // console.log(info.event); // info.event内に予定の全情報が入っているので、必要に応じて参照すること
-            document.getElementById("id").value = info.event.id;
-            document.getElementById("delete-id").value = info.event.id;
-            document.getElementById("event_title").value = info.event.title;
-            document.getElementById("start_date").value = formatDate(
-                info.event.start
-            );
-            document.getElementById("end_date").value = formatDate(
-                info.event.end,
-                "end"
-            );
-            document.getElementById("event_body").value =
-                info.event.extendedProps.description;
-            document.getElementById("event_color").value =
-                info.event.backgroundColor;
-            // 予定編集モーダルを開く
-            document.getElementById("modal-update").style.display = "flex";
+            const eventId = info.event.id;
+
+            if (info.event.extendedProps.type === "festival") {
+                // 祭りなら詳細ページへ遷移
+                window.location.href = `/calendar/${eventId}`;
+            } else {
+                // 通常の予定は編集モーダル表示
+                document.getElementById("id").value = eventId;
+                document.getElementById("delete-id").value = eventId;
+                document.getElementById("event_title").value = info.event.title;
+                document.getElementById("start_date").value = formatDate(
+                    info.event.start
+                );
+                document.getElementById("end_date").value = formatDate(
+                    info.event.end,
+                    "end"
+                );
+                document.getElementById("event_body").value =
+                    info.event.extendedProps.description;
+                document.getElementById("event_color").value =
+                    info.event.backgroundColor;
+                document.getElementById("modal-update").style.display = "flex";
+            }
         },
     });
 

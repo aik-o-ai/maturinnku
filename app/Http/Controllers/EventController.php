@@ -107,4 +107,10 @@ class EventController extends Controller
         // カレンダー表示画面にリダイレクトする
         return redirect(route("calendar.show"));
     }
+    //詳細ページへ遷移
+    public function detail($id)
+    {
+        $event = Event::with('festivalImage')->findOrFail($id);
+        return view('calendars.detail', compact('event'));
+    }
 }
