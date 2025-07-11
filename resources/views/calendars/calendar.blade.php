@@ -30,6 +30,7 @@
                 <input id="new-id" type="hidden" name="id" value="" />
                 <label for="event_title">タイトル</label>
                 <input id="new-event_title" class="input-title" type="text" name="event_title" value="" />
+
                 <label for="start_date">開始日時</label>
                 <input id="new-start_date" class="input-date" type="date" name="start_date" value="" />
                 <label for="end_date">終了日時</label>
