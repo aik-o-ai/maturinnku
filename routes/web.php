@@ -13,6 +13,8 @@ Route::controller(EventController::class)->middleware(['auth'])->group(function 
     Route::get('/calendar', 'show')->name('calendar'); // カレンダー表示
     Route::post('/calendar/get', 'get')->name('calendar.get'); // イベント取得
     Route::post('/calendar/create', 'create')->name('calendar.create'); // イベント追加
+    Route::get('/calendar', 'show')->name('calendar.show');
+    Route::post('/calendar', 'store')->name('calendar.store'); // 保存
     Route::put('/calendar/update', 'update')->name('calendar.update'); // イベント更新
     Route::delete('/calendar/delete', 'delete')->name('calendar.delete'); // 予定の削除
 
@@ -20,12 +22,12 @@ Route::controller(EventController::class)->middleware(['auth'])->group(function 
 });
 // FestivalImageController（投稿系）
 Route::controller(FestivalImageController::class)->middleware(['auth'])->group(function () {
-    Route::get('/', 'index')->name('index'); // 投稿一覧
-    Route::get('/festival_images/create', 'create')->name('create'); // 作成画面
-    Route::post('/festival_images', 'store')->name('store'); // 保存
-    Route::get('/festival_images/{festivalImage}', 'show')->name('show'); // 詳細
-    Route::get('/festival_images/{festivalImage}/edit', 'edit')->name('edit'); // 編集画面（必要なら）
-    Route::put('/festival_images/{festivalImage}', 'update')->name('update'); // 更新
+    Route::get('/', 'index')->name('festival_images.index'); // 投稿一覧
+    Route::get('/festival_images/create', 'create')->name('festival_images.create'); // 作成画面
+    Route::post('/festival_images', 'store')->name('festival_images.store'); // 保存
+    Route::get('/festival_images/{festivalImage}', 'show')->name('festival_images.show'); // 詳細
+    Route::get('/festival_images/{festivalImage}/edit', 'edit')->name('festival_images.edit'); // 編集画面（必要なら）
+    Route::put('/festival_images/{festivalImage}', 'update')->name('festival_images.update'); // 更新
 });
 
 
@@ -41,6 +43,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('/calendar/create', [EventController::class, 'create'])->name('calendar.create');
 });
+
+// イベントの詳細ページ（カレンダーイベント用）
+Route::get('/calendar/{id}', [App\Http\Controllers\EventController::class, 'detail'])->name('calendar.detail');
+
+//ダッシュボード
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // Breezeの認証ルート（/login, /registerなど）
 require __DIR__ . '/auth.php';

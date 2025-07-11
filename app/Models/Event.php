@@ -19,4 +19,8 @@ class Event extends Model
         'event_color',
         'event_border_color',
     ];
+    public function festivalImage()
+    {
+        return $this->hasOne(FestivalImage::class, 'event_id');
+    }
 }

@@ -50,7 +50,35 @@ class EventController extends Controller
     //新規予定追加
     public function create(Request $request)
     {
-        dd($request->all()); // ← 追加して試す
+        // バリデーション（eventsテーブルの中でNULLを許容していないものをrequired）
+        $request->validate([
+            'event_title' => 'required',
+            'event_body' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'event_border_color' => 'required',
+            'prefecture' => 'required',
+            'location' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        //登録処理
+        $event = new Event();
+        $event->user_id = Auth::id();
+        $event->event_title = $request->input('event_title');
+        $event->event_body = $request->input('event_body');
+        $event->start_date = $request->input('start_date');
+        $event->end_date = date("Y-m-d", strtotime("{$request->input('end_date')} +1 day")); // FullCalendarが登録する終了日は仕様で1日ずれるので、その修正を行っている
+        $event->event_color = $request->input('event_color');
+        $event->event_border_color = $request->input('event_color');
+        $event->prefecture = $request->input('prefecture'); // ← これがないとエラー
+        $event->location = $request->input('location');     // ← これも必要なら
+        $event->latitude = $request->input('latitude');
+        $event->longitude = $request->input('longitude');
+        $event->save();
+
+        return redirect()->route('calendar.show');
     }
 
 
@@ -78,5 +106,11 @@ class EventController extends Controller
         $event->find($request->input('id'))->delete();
         // カレンダー表示画面にリダイレクトする
         return redirect(route("calendar.show"));
+    }
+    //詳細ページへ遷移
+    public function detail($id)
+    {
+        $event = Event::with('festivalImage')->findOrFail($id);
+        return view('calendars.detail', compact('event'));
     }
 }

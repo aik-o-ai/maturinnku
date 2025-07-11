@@ -14,4 +14,8 @@ class FestivalImage extends Model
         'body',
         'image_url',
     ];
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
+    }
 }
